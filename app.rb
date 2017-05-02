@@ -3,6 +3,7 @@ require('sinatra/reloader')
 also_reload('lib/**/*.rb')
 require('./lib/patient')
 require('./lib/doctor')
+require('./lib/specialty')
 require('pry')
 require('pg')
 
@@ -17,8 +18,40 @@ get('/doctors') do
   erb(:doctors)
 end
 
+get('/specialties') do
+  @specialties = Specialty.all()
+  @doctors = Doctor.all()
+  erb(:specialties)
+end
+
+get('/specialties/new') do
+  erb(:specialties_form)
+end
+
+post("/specialties") do
+  name = params.fetch('name')
+  new_specialty = Specialty.new({:id => nil, :name => name})
+  new_specialty.save()
+  erb(:success)
+end
+
+get("/specialties/:id") do
+  @specialty = Specialty.find(params.fetch("id").to_i())
+  @specialties = Specialty.all()
+  erb(:specialty)
+end
+
+
 get('/doctors/new') do
   erb(:doctors_form)
+end
+
+post("/doctors") do
+  name = params.fetch('name')
+  specialty_name = params.fetch('specialty')
+  new_doctor = Doctor.new({:id => nil, :name => name, :specialty_name => specialty_name, :specialty_id => nil})
+  new_doctor.save()
+  erb(:success)
 end
 
 get('/patients/new') do
@@ -48,13 +81,7 @@ get("/doctors/:id/edit") do
   erb(:edit_doctor)
 end
 
-post("/doctors") do
-  name = params.fetch('name')
-  specialty_name = params.fetch('specialty')
-  new_doctor = Doctor.new({:id => nil, :name => name, :specialty_name => specialty_name})
-  new_doctor.save()
-  erb(:success)
-end
+
 
 patch("/doctors/:id") do
   name = params.fetch("name")

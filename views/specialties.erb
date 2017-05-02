@@ -1,0 +1,16 @@
+<h1>All Specialties</h1>
+
+<% if @specialties.any?() %>
+  <h3>Here are your specialties:</h3>
+
+  <ul>
+    <% @specialties.each() do |specialty| %>
+      <li><a href="/specialties/<%= specialty.id()%>"><%= specialty.name() %></a> </li>
+    <% end %>
+  </ul>
+
+<% else %>
+
+    <p>There are no lists yet!</p>
+
+<% end %>

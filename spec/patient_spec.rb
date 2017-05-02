@@ -30,4 +30,6 @@ describe(Patient) do
       expect(Patient.all()).to(eq([test_patient]))
     end
   end
+
+
 end

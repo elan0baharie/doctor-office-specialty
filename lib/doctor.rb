@@ -1,15 +1,16 @@
 class Doctor
 
-  attr_accessor(:id, :name, :specialty_name)
+  attr_accessor(:id, :name, :specialty_name, :specialty_id)
 
   def initialize(attributes)
     @id = attributes.fetch(:id)
     @name = attributes.fetch(:name)
     @specialty_name = attributes.fetch(:specialty_name)
+    @specialty_id = attributes.fetch(:specialty_id)
   end
 
   def ==(another_doctor)
-    (self.id() == another_doctor.id()) && (self.name() == another_doctor.name()) && (self.specialty_name() == another_doctor.specialty_name())
+    (self.id() == another_doctor.id()) && (self.name() == another_doctor.name()) && (self.specialty_name() == another_doctor.specialty_name()) && (self.specialty_id() == another_doctor.specialty_id())
   end
 
   def self.all
@@ -19,13 +20,14 @@ class Doctor
       id = doctor.fetch('id').to_i()
       name = doctor.fetch('name')
       specialty_name = doctor.fetch('specialty_name')
-      saved_doctors.push(Doctor.new({:id => id, :name => name, :specialty_name => specialty_name}))
+      specialty_id = doctor.fetch('specialty_id')
+      saved_doctors.push(Doctor.new({:id => id, :name => name, :specialty_name => specialty_name, :specialty_id => specialty_id}))
     end
     saved_doctors
   end
 
   def save
-    result = DB.exec("INSERT INTO doctors (name, specialty_name) VALUES ('#{@name}', '#{@specialty_name}') RETURNING id;")
+    result = DB.exec("INSERT INTO doctors (name, specialty_name, specialty_id) VALUES ('#{@name}', '#{@specialty_name}', #{@specialty_id}) RETURNING id;")
     @id = result.first().fetch('id').to_i()
   end
 
