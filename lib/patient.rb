@@ -27,4 +27,8 @@ attr_accessor(:name, :birthdate, :doctor_id)
   def save
     DB.exec("INSERT INTO patients (name, birthdate, doctor_id) VALUES ('#{@name}', '#{@birthdate}', #{@doctor_id});")
   end
+
+  def delete
+    DB.exec("DELETE FROM doctors WHERE id= #{self.id()};")
+  end
 end

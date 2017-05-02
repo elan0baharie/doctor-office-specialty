@@ -51,4 +51,36 @@ end
     end
   end
 
+  describe("#update") do
+    it("lets you update doctors in the database") do
+      test_doctor = Doctor.new({:id => nil, :name => "Elan", :specialty_name => "cardiology"})
+      test_doctor.save()
+      test_doctor.update({:name => "Brian", :specialty_name => "cardiology"})
+      expect(test_doctor.name()).to(eq("Brian"))
+    end
+  end
+
+  describe("#delete") do
+    it("deletes a doctor's info from the database") do
+      test_doctor1 = Doctor.new({:id => nil, :name => "Elan", :specialty_name => "cardiology"})
+      test_doctor1.save()
+      test_doctor2 = Doctor.new({:id => nil, :name => "Elan", :specialty_name => "cardiology"})
+      test_doctor2.save()
+      test_doctor1.delete()
+      expect(Doctor.all()).to(eq([test_doctor2]))
+    end
+  end
+
+  describe("#delete") do
+    it("deletes patients from a doctor's database") do
+      test_doctor = Doctor.new({:id => nil, :name => "Elan", :specialty_name => "cardiology"})
+      test_doctor.save()
+      test_patient1 = Patient.new({:name => "Stu", :birthdate => "1982-12-12", :doctor_id => test_doctor.id()})
+      test_patient1.save()
+      test_patient2 = Patient.new({:name => "Stu", :birthdate => "1982-12-12", :doctor_id => test_doctor.id()})
+      test_patient2.save()
+      test_doctor.delete()
+      expect(Patient.all()).to(eq([]))
+    end
+  end
 end

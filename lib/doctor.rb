@@ -51,4 +51,16 @@ class Doctor
     doctor_patients
   end
 
+  def update(attributes)
+    @name = attributes.fetch(:name)
+    @specialty_name = attributes.fetch(:specialty_name)
+    @id = self.id()
+    DB.exec("UPDATE doctors SET name = '#{@name}', specialty_name = '#{@specialty_name}' WHERE id = #{@id};")
+  end
+
+  def delete
+    DB.exec("DELETE FROM doctors WHERE id= #{self.id()};")
+    DB.exec("DELETE FROM patients WHERE doctor_id = #{self.id()};")
+  end
+
 end

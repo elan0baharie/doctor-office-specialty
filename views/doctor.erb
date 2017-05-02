@@ -1,5 +1,6 @@
 <h1><%= @doctor.name() %></h1>
 
+<a href="/doctors/<%= @doctor.id() %>/edit">Edit info for existing doctors:</a>
 <% if @doctor.patients().any?() %>
   <h3>Here are all the patients for this doctor:</h3>
 
@@ -13,17 +14,6 @@
     <p>There are no patients yet for this doctor.</p>
   <% end %>
 
-  <h3>Add a patient to <%= @doctor.name() %> </h3>
-
-  <form action="/patients" method="post">
-    <input id="doctor_id" name="doctor_id" type="hidden" value="<%= @doctor.id() %>">
-
-    <label for="name">Patient Name:</label>
-    <input id="name" name="name" type="text">
-    <label for="birthdate">Birthdate:</label>
-    <input id="birthdate" name="birthdate" type="text">
-    <button type="submit">Add task</button>
-  </form>
   <hr>
 
   <div class="container">

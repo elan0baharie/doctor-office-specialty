@@ -1,0 +1,13 @@
+<form action="/patients" method="post">
+  <label for="doctor_id">Select a Doctor:</label>
+  <select id='doctor_id' name='doctor_id' type='text'>
+    <% @doctors.each() do |doctor| %>
+      <option value="<%= doctor.id()%>"> <%= doctor.name() %> </option>
+    <% end %>
+  </select>
+  <label for="name">Patient Name:</label>
+  <input id="name" name="name" type="text">
+  <label for="birthdate">Birthdate:</label>
+  <input id="birthdate" name="birthdate" type="text">
+  <button type="submit">Add Patient</button>
+</form>
